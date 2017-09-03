@@ -1,0 +1,2 @@
+# OCVPlayer
+OpenCVQT Video Player
