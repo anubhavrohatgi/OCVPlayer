@@ -4,7 +4,7 @@
 VideoThread::VideoThread(QObject *parent) : QThread(parent)
 {
     mstop = true;
-    fstr = "default";
+    fstr = "Default";
 }
 
 
@@ -49,7 +49,7 @@ void VideoThread::run()
             mstop = true;
         }
 
-        if(fstr == "default" || fstr == "Select Filter") {
+        if(fstr == "Default") {
             if (frame.channels()== 3){
                 cv::cvtColor(frame, RGBframe, CV_BGR2RGB);
                 img = QImage((const unsigned char*)(RGBframe.data),
