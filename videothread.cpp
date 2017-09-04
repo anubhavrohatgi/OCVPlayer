@@ -4,6 +4,7 @@
 VideoThread::VideoThread(QObject *parent) : QThread(parent)
 {
     mstop = true;
+    fstr = "default";
 }
 
 
@@ -48,6 +49,37 @@ void VideoThread::run()
             mstop = true;
         }
 
+        if(fstr == "default" || fstr == "Select Filter") {
+            if (frame.channels()== 3){
+                cv::cvtColor(frame, RGBframe, CV_BGR2RGB);
+                img = QImage((const unsigned char*)(RGBframe.data),
+                                  RGBframe.cols,RGBframe.rows,QImage::Format_RGB888);
+            }
+            else
+            {
+                img = QImage((const unsigned char*)(frame.data),
+                                     frame.cols,frame.rows,QImage::Format_Indexed8);
+            }
+        } else if(fstr == "Grayscale"){
+            cv::cvtColor(frame,frame,cv::COLOR_BGR2GRAY);
+            img = QImage((const unsigned char*)(frame.data),
+                                 frame.cols,frame.rows,QImage::Format_Indexed8);
+        } else if(fstr == "Luv") {
+            cv::cvtColor(frame,frame,cv::COLOR_BGR2Luv);
+            img = QImage((const unsigned char*)(RGBframe.data),
+                              RGBframe.cols,RGBframe.rows,QImage::Format_RGB888);
+        } else {
+            if (frame.channels()== 3){
+                cv::cvtColor(frame, RGBframe, CV_BGR2RGB);
+                img = QImage((const unsigned char*)(RGBframe.data),
+                                  RGBframe.cols,RGBframe.rows,QImage::Format_RGB888);
+            }
+            else
+            {
+                img = QImage((const unsigned char*)(frame.data),
+                                     frame.cols,frame.rows,QImage::Format_Indexed8);
+            }
+        }
         if (frame.channels()== 3){
             cv::cvtColor(frame, RGBframe, CV_BGR2RGB);
             img = QImage((const unsigned char*)(RGBframe.data),
@@ -80,4 +112,12 @@ void VideoThread::msleep(int ms)
 
 bool VideoThread::isStopped() const{
     return this->mstop;
+}
+
+
+void VideoThread::onChangecbox(const QString &str)
+{
+    qDebug()<<str;
+    fstr = str;
+
 }

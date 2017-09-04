@@ -8,7 +8,11 @@ MainWindow::MainWindow(QWidget *parent) :
     vthread = new VideoThread();
     QObject::connect(vthread, SIGNAL(getImage(QImage)),
                               this, SLOT(updatePlayerUI(QImage)));
+
     ui->setupUi(this);
+
+    QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(QString)),
+                              vthread, SLOT(onChangecbox(QString)));
 }
 
 MainWindow::~MainWindow()

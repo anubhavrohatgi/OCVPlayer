@@ -34,6 +34,11 @@ private slots:
     void on_pushButton_2_clicked();
     void on_actionExit_triggered();
 
+
+signals:
+    void onCombochange(const QString& str);
+
+
 private:
     Ui::MainWindow *ui;
     VideoThread* vthread;

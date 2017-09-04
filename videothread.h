@@ -15,9 +15,10 @@
 
 
 class VideoThread : public QThread
-{    Q_OBJECT
+{
+    Q_OBJECT
 
- public:
+public:
     //Constructor
     VideoThread(QObject *parent = 0);
 
@@ -36,23 +37,29 @@ class VideoThread : public QThread
     //check if the player has been stopped
     bool isStopped() const;
 
- private:
+private:
     bool mstop;
     QMutex mutex;
     QWaitCondition mwait;
     cv::Mat frame;
     int frameRate;
-   cv::VideoCapture cap;
+    cv::VideoCapture cap;
     cv::Mat RGBframe;
     QImage img;
+    QString fstr;
 
- signals:
+
+signals:
     //Signal to output frame to be displayed
     void getImage(const QImage &image);
 
- protected:
-     void run();
-     void msleep(int ms);
+
+public slots:
+    void onChangecbox(const QString& str);
+
+protected:
+    void run();
+    void msleep(int ms);
 
 };
 
